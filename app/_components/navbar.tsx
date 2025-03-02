@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
   { section: "Tentang", url: "#tentang" },
@@ -10,7 +11,7 @@ const navLinks = [
 const Navbar = () => {
   return (
     <div className="fixed w-full mt-3 z-[60]">
-      <a href="/">
+      <Link href="/">
         <Image
           className="absolute left-5"
           src={"/logoBlack.png"}
@@ -18,11 +19,11 @@ const Navbar = () => {
           width={120}
           height={120}
         />
-      </a>
+      </Link>
 
       <nav className="mx-auto  w-fit flex gap-3 shadow-inner  rounded-xl font-serif border backdrop-blur-lg  bg-gradient-to-r from-neutral-300/70 to-red-300/60">
         {navLinks.map(({ section, url }, i) => (
-          <a
+          <Link
             key={url}
             href={url}
             //   still not working
@@ -31,7 +32,7 @@ const Navbar = () => {
             }, ${i === 2 && "pr-1"}`}
           >
             {section}
-          </a>
+          </Link>
         ))}
         <span className="bg-amber-200 py-2.5 px-3 rounded-xl border-l ">🇮🇩</span>
       </nav>
