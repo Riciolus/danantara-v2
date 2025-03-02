@@ -10,7 +10,7 @@ const navLinks = [
 
 const Navbar = () => {
   return (
-    <div className="fixed w-full mt-3 z-[60]">
+    <div className="fixed w-full mt-3 z-[100]">
       <Link href="/">
         <Image
           className="absolute left-5"
@@ -21,20 +21,18 @@ const Navbar = () => {
         />
       </Link>
 
-      <nav className="mx-auto  w-fit flex gap-3 shadow-inner  rounded-xl font-serif border backdrop-blur-lg  bg-gradient-to-r from-neutral-300/70 to-red-300/60">
+      <nav className="mx-auto  w-fit flex gap-2 shadow-inner  rounded-xl font-serif border backdrop-blur-lg  bg-gradient-to-r from-neutral-300/70 to-red-300/60">
         {navLinks.map(({ section, url }, i) => (
           <Link
             key={url}
             href={url}
             //   still not working
-            className={` hover:bg-amber-50/50 text-sm transition-colors py-2.5 px-3 rounded-xl  ${
-              i === 0 && "pl-1"
-            }, ${i === 2 && "pr-1"}`}
+            className="bg-transparent hover:bg-amber-100/50 hover:underline hover:border hover:scale-90 border-neutral-400 text-sm transition-all py-2.5 px-3 rounded-xl"
           >
             {section}
           </Link>
         ))}
-        <span className="bg-amber-200 py-2.5 px-3 rounded-xl border-l ">🇮🇩</span>
+        <button className="bg-amber-200 py-2.5 px-3 rounded-xl border-l ">🇮🇩</button>
       </nav>
     </div>
   );
