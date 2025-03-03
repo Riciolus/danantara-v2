@@ -3,7 +3,7 @@ import Header from "./_components/header";
 
 export default function Home() {
   return (
-    <div className=" text-neutral-900 h-screen flex flex-col">
+    <div className=" text-neutral-900 h-screen  flex flex-col overflow-hidden">
       <Navbar />
       <Header />
     </div>

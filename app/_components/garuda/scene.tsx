@@ -9,12 +9,10 @@ import Garuda from "./model";
 
 export default function Scene() {
   return (
-    <Canvas className="z-[60]" gl={{ antialias: true }} dpr={[1, 1.5]}>
+    <Canvas className="z-[101]" gl={{ antialias: true }} dpr={[1, 1.5]}>
       <directionalLight position={[0, 0, 3]} intensity={20} />
       <Suspense fallback={null}>
-        <Center>
-          <Garuda />
-        </Center>
+        <Garuda />
       </Suspense>
     </Canvas>
   );

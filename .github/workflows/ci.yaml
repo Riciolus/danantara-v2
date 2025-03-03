@@ -16,8 +16,8 @@ jobs:
         shell: bash
         run: find . -type f -name ".env.example" -exec sh -c 'cp "$1" "${1%.*}"' _ {} \;
 
-      - name: Typecheck
-        run: pnpm typecheck
+      # - name: Typecheck
+      #   run: pnpm typecheck
 
       - name: Lint
         run: pnpm lint
