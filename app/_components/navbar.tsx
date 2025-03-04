@@ -10,7 +10,7 @@ const navLinks = [
 
 const Navbar = () => {
   return (
-    <div className="fixed w-full mt-3 z-[100]">
+    <div className="fixed w-screen mt-3 z-[102]">
       {/* Upper Corner logo */}
       <div className="hidden md:flex">
         <Link href="/">
@@ -23,7 +23,7 @@ const Navbar = () => {
           />
         </Link>
       </div>
-      <nav className="mx-auto  w-fit flex gap-2 shadow-inner  rounded-xl font-serif border backdrop-blur-sm bg-gradient-to-r from-neutral-200/40 to-red-300/40  ">
+      <nav className="mx-auto  w-fit flex gap-2 shadow-inner  rounded-xl font-serif border backdrop-blur-sm  bg-lime-100/40 ">
         {navLinks.map(({ section, url }) => (
           <Link
             key={url}
@@ -33,7 +33,16 @@ const Navbar = () => {
             {section}
           </Link>
         ))}
-        <button className="bg-amber-200 py-2.5 px-3 rounded-xl border-l ">🇮🇩</button>
+        <button className="bg-amber-200 p-2 rounded-xl border-l ">
+          ID
+          {/* <Image
+            src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/flags/4x3/us.svg"
+            alt="US Flag"
+            width="20"
+            height="20"
+            className="rounded-sm"
+          /> */}
+        </button>
       </nav>
     </div>
   );
