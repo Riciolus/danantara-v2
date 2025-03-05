@@ -31,16 +31,6 @@ const Header = () => {
           </div>
           <Gradient />
         </div>
-
-        {/* <div className="relative w-full  h-full   justify-center items-center bg-purple-400">
-          <h1 className="absolute  h-fit top-0 inset-0 mt-16 text-center text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold text-neutral-800 z-20 font-(family-name:--font-grenze-gotisch)">
-            Daya Anagata Nusantara
-          </h1>
-          <div className="flex  justify-center md:mt-0 items-center h-1/2 bg-red-400  md:h-full w-screen">
-            <GarudaScene />
-          </div>
-        </div>
-        <Gradient /> */}
       </div>
 
       {/* This ensures <h5> stays at the bottom */}

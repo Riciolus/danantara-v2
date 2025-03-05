@@ -13,11 +13,20 @@ export default function Garuda() {
   const ref = useRef<THREE.Group>(null);
   const particlesRef = useRef<THREE.Points>(null);
   const { viewport } = useThree(); // Get screen size
+  console.log("Viewport width:", viewport.width);
+  console.log("Viewport height:", viewport.height);
 
   // Center
+  // useEffect(() => {
+  //   scene.position.y += -0.36;
+  // }, [scene.position]);
+
   useEffect(() => {
-    scene.position.y += -0.36;
-  }, [scene.position]);
+    console.log("Initial scene position Y:", scene.position.y);
+    scene.position.set(scene.position.x, -0.72, scene.position.z);
+  }, []);
+
+  console.log("scene position y :", scene.position.y);
 
   // Responsive scale: Adjust based on screen width
   const modelScale: [number, number, number] =
@@ -73,7 +82,7 @@ export default function Garuda() {
   );
 
   return (
-    <group scale={modelScale} ref={ref}>
+    <group ref={ref} scale={modelScale}>
       <primitive object={scene} />
       {/* Floating Sparkles */}
       <points
