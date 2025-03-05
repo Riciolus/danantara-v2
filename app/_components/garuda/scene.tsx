@@ -8,7 +8,7 @@ import Garuda from "./model";
 
 export default function Scene() {
   return (
-    <Canvas className="z-[101]" gl={{ antialias: true }} dpr={[1, 1.5]}>
+    <Canvas className="z-[101]" gl={{ antialias: true }} dpr={[1, 1.2]}>
       <Suspense fallback={null}>
         <directionalLight position={[0, 0, 3]} intensity={20} />
         <Garuda />

@@ -4,7 +4,7 @@ import Link from "next/link";
 const navLinks = [
   { section: "Tentang", url: "#tentang" },
   { section: "Perjalanan", url: "#perjalanan" },
-  // { section: "Visi & Misi", url: "#visi&misi" },
+  // { section: "Visi misi", url: "#visi&misi" },
   { section: "Narahubung", url: "#narahubung" },
 ];
 
@@ -23,7 +23,7 @@ const Navbar = () => {
           />
         </Link>
       </div>
-      <nav className="mx-auto  w-fit flex gap-2 shadow-inner  rounded-xl font-serif border backdrop-blur-sm  bg-lime-100/40 ">
+      <nav className="mx-auto  w-fit flex gap-2 shadow-inner  rounded-xl font-serif border backdrop-blur-sm  bg-gradient-to-r from-neutral-200/40 to-amber-600/60 ">
         {navLinks.map(({ section, url }) => (
           <Link
             key={url}
