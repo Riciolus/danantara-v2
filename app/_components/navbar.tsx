@@ -4,7 +4,7 @@ import Link from "next/link";
 const navLinks = [
   { section: "Tentang", url: "#tentang" },
   { section: "Perjalanan", url: "#perjalanan" },
-  // { section: "Visi misi", url: "#visi&misi" },
+  { section: "Visi & Misi", url: "#visi&misi" },
   { section: "Narahubung", url: "#narahubung" },
 ];
 
@@ -23,25 +23,25 @@ const Navbar = () => {
           />
         </Link>
       </div>
-      <nav className="mx-auto  w-fit flex gap-2 shadow-inner  rounded-xl font-serif border backdrop-blur-sm  bg-gradient-to-r from-neutral-200/40 to-amber-600/60 ">
+      <nav className="mx-auto  w-fit flex md:gap-1 py-1 px-1 md:px-2 border border-neutral-300 shadow-sm inset-shadow-2xs shadow-neutral-400/40 bg-amber-50/80 backdrop-blur-md font-(family-name:--font-poppins)  rounded-4xl     ">
         {navLinks.map(({ section, url }) => (
           <Link
             key={url}
             href={url}
-            className="bg-transparent hover:bg-amber-100/50 hover:underline hover:border hover:scale-90 border-neutral-400 text-sm transition-all py-2.5 px-3 rounded-xl"
+            className="flex items-center justify-center bg-transparent hover:bg-lime-50 hover:inset-shadow-2xs text-xs hover:underline border border-transparent text-neutral-700 hover:border-neutral-300 transition-all px-1  md:px-2 rounded-4xl"
           >
             {section}
           </Link>
         ))}
-        <button className="bg-amber-200 p-2 rounded-xl border-l ">
-          ID
-          {/* <Image
+        <button className=" p-2 rounded-xl cursor-pointer">
+          {/* ID */}
+          <Image
             src="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/flags/4x3/us.svg"
             alt="US Flag"
             width="20"
             height="20"
             className="rounded-sm"
-          /> */}
+          />
         </button>
       </nav>
     </div>
