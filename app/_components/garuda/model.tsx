@@ -5,8 +5,9 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 
-const particleTexture = new THREE.TextureLoader().load("/glow.png");
-const smokeTexture = new THREE.TextureLoader().load("/smoke.png");
+const particleTexture = new THREE.TextureLoader().load("/glowv2.png");
+const smokeTexture = new THREE.TextureLoader().load("/cloud3.png");
+// const cloudTexture = new THREE.TextureLoader().load("/cloud3.png");
 
 export default function Garuda() {
   const { scene } = useGLTF("/garuda.glb");
@@ -14,6 +15,7 @@ export default function Garuda() {
   const ref = useRef<THREE.Group>(null);
   const particlesRef = useRef<THREE.Points>(null);
   const smokeRef = useRef<THREE.Mesh>(null);
+  const cloudRef = useRef<THREE.Mesh>(null);
   const { viewport } = useThree(); // Get screen size
 
   useEffect(() => {
@@ -27,11 +29,11 @@ export default function Garuda() {
   );
 
   const smokeScale: [number, number] = useMemo(
-    () => (viewport.width < 6.5 ? [3.4, 3.2] : [4.5, 3.2]),
+    () => (viewport.width < 6.5 ? [3, 2.2] : [3.5, 3]),
     [viewport.width]
   );
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const time = performance.now() * 0.001;
 
     if (ref.current) {
@@ -42,13 +44,14 @@ export default function Garuda() {
     }
 
     if (particlesRef.current) {
-      particlesRef.current.rotation.y += 0.0038; // Slowly rotate the particles
+      particlesRef.current.rotation.y += 0.025; // Slowly rotate the particles
       // particlesRef.current.rotation.y += 0.0028; // Slowly rotate the particles
     }
 
-    if (smokeRef.current) {
-      smokeRef.current.position.x = Math.sin(time) * -0.05;
-      smokeRef.current.rotation.z = Math.sin(time) * -0.05;
+    if (cloudRef.current) {
+      const cloudTime = clock.getElapsedTime() * 0.5; // Slower movement for clouds
+      cloudRef.current.position.y = Math.sin(cloudTime + 2) * 0.1; // Different phase shift
+      cloudRef.current.position.x = Math.cos(cloudTime * 0.7) * 0.4; // Different frequency
     }
   });
 
@@ -57,7 +60,7 @@ export default function Garuda() {
   // Create floating particles
   const particleGeometry = useMemo(() => {
     // const particleSpace = viewport.width < 6.5 ? 2 : 3; // Smaller height and  for mobile
-    const particleCount = viewport.width < 6.5 ? 20 : 150;
+    const particleCount = viewport.width < 6.5 ? 20 : 200;
     const positions = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount; i++) {
@@ -77,7 +80,7 @@ export default function Garuda() {
       new THREE.PointsMaterial({
         map: particleTexture, // Use a circular glow texture
         color: "gold",
-        size: 0.2, // Adjust particle size
+        size: 0.1, // Adjust particle size
         transparent: true,
         depthWrite: false, // Avoid depth issues
         opacity: 1,
@@ -96,16 +99,40 @@ export default function Garuda() {
         geometry={particleGeometry}
         material={particleMaterial}
       />
+      {/* <mesh ref={smokeRef} position={[-0.1, -0.2, -1]}>
+        <planeGeometry args={smokeScale} />
+        <meshStandardMaterial
+          color={"yellow"}
+          map={smokeTexture}
+          transparent
+          opacity={1}
+          depthWrite={false}
+        />
+      </mesh> */}
+      {/* <mesh ref={cloudRef} position={[0, 0, -1]} scale={[2, 2, 2]}>
+        <planeGeometry args={[viewport.width * 0.2, viewport.height * 0.2]} />
+        <meshBasicMaterial map={cloudTexture} transparent opacity={0.6} />
+      </mesh> */}
       <mesh ref={smokeRef} position={[-0.1, -0.2, -1]}>
         <planeGeometry args={smokeScale} />
         <meshStandardMaterial
-          color={"red"}
+          color={"#E5B80B"}
           map={smokeTexture}
           transparent
-          opacity={0.6}
+          opacity={0.2}
           depthWrite={false}
         />
       </mesh>
+      {/* <mesh ref={cloudRef} position={[-2, 1, -1]}>
+        <planeGeometry args={[4, 4]} />
+        <meshStandardMaterial
+          color={"default"}
+          map={cloudTexture}
+          transparent
+          opacity={1}
+          depthWrite={false}
+        />
+      </mesh> */}
       ;
     </group>
   );

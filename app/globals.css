@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans);
+  --font-poppins: var(--font-poppins);
   --font-mono: var(--font-geist-mono);
   --font-grenze: var(--font-grenze-gotisch);
   --background: var(--background);
