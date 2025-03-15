@@ -3,7 +3,7 @@ import { Geist_Mono, Grenze_Gotisch, Poppins } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Poppins({
-  weight: ["500"],
+  weight: ["300", "500", "600", "700"],
   variable: "--font-poppins",
   subsets: ["latin"],
 });
