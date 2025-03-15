@@ -5,62 +5,47 @@ import { useGLTF } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 
-const particleTexture = new THREE.TextureLoader().load("/glowv2.png");
-const smokeTexture = new THREE.TextureLoader().load("/cloud3.png");
-// const cloudTexture = new THREE.TextureLoader().load("/cloud3.png");
+interface GarudaProps {
+  onLoaded?: () => void;
+}
 
-export default function Garuda() {
+export default function Garuda({ onLoaded }: GarudaProps) {
   const { scene } = useGLTF("/garuda.glb");
-
   const ref = useRef<THREE.Group>(null);
   const particlesRef = useRef<THREE.Points>(null);
   const smokeRef = useRef<THREE.Mesh>(null);
-  const cloudRef = useRef<THREE.Mesh>(null);
-  const { viewport } = useThree(); // Get screen size
+  const { viewport } = useThree();
 
-  useEffect(() => {
-    scene.position.set(scene.position.x, -0.72, scene.position.z);
+  // Load textures once with useMemo
+  const textures = useMemo(() => {
+    return {
+      particle: new THREE.TextureLoader().load("/glowv2.png"),
+      smoke: new THREE.TextureLoader().load("/cloud3.png"),
+    };
   }, []);
 
-  // Responsive scale: Adjust based on screen width
-  const modelScale: [number, number, number] = useMemo(
-    () => (viewport.width < 6.5 ? [2.1, 2.3, 2.3] : [3.5, 3.5, 3.5]),
-    [viewport.width]
+  useEffect(() => {
+    scene.position.set(scene.position.x, -0.67, scene.position.z);
+    onLoaded?.();
+  }, [scene, onLoaded]);
+
+  // Responsive values based on threshold
+  const isSmallScreen = useMemo(() => viewport.width < 6, [viewport.width < 6]);
+
+  // Derived values only recalculated when threshold changes
+  const modelScale = useMemo<[number, number, number]>(
+    () => (isSmallScreen ? [2.1, 2.3, 2.3] : [3.35, 3.35, 3.35]),
+    [isSmallScreen]
   );
 
-  const smokeScale: [number, number] = useMemo(
-    () => (viewport.width < 6.5 ? [3, 2.2] : [3.5, 3]),
-    [viewport.width]
+  const smokeScale = useMemo<[number, number]>(
+    () => (isSmallScreen ? [3, 2.2] : [3.5, 3]),
+    [isSmallScreen]
   );
 
-  useFrame(({ clock }) => {
-    const time = performance.now() * 0.001;
-
-    if (ref.current) {
-      // Add slight random rotation
-      ref.current.position.x = Math.sin(time) * 0.1;
-      ref.current.position.y = Math.cos(time) * 0.05;
-      ref.current.rotation.z = Math.sin(time) * 0.02;
-    }
-
-    if (particlesRef.current) {
-      particlesRef.current.rotation.y += 0.025; // Slowly rotate the particles
-      // particlesRef.current.rotation.y += 0.0028; // Slowly rotate the particles
-    }
-
-    if (cloudRef.current) {
-      const cloudTime = clock.getElapsedTime() * 0.5; // Slower movement for clouds
-      cloudRef.current.position.y = Math.sin(cloudTime + 2) * 0.1; // Different phase shift
-      cloudRef.current.position.x = Math.cos(cloudTime * 0.7) * 0.4; // Different frequency
-    }
-  });
-
-  // Responsive particle height
-
-  // Create floating particles
-  const particleGeometry = useMemo(() => {
-    // const particleSpace = viewport.width < 6.5 ? 2 : 3; // Smaller height and  for mobile
-    const particleCount = viewport.width < 6.5 ? 20 : 200;
+  // Create floating particles geometry
+  const { particleGeometry, particleMaterial } = useMemo(() => {
+    const particleCount = isSmallScreen ? 20 : 200;
     const positions = new Float32Array(particleCount * 3);
 
     for (let i = 0; i < particleCount; i++) {
@@ -71,69 +56,64 @@ export default function Garuda() {
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    return geometry;
-  }, [viewport.width]);
 
-  // Glowing Particle Material
-  const particleMaterial = useMemo(
-    () =>
-      new THREE.PointsMaterial({
-        map: particleTexture, // Use a circular glow texture
-        color: "gold",
-        size: 0.1, // Adjust particle size
-        transparent: true,
-        depthWrite: false, // Avoid depth issues
-        opacity: 1,
-        blending: THREE.AdditiveBlending, // Makes glow effect
-        sizeAttenuation: true, // Makes particles scale with distance
-      }),
-    []
-  );
+    const material = new THREE.PointsMaterial({
+      map: textures.particle,
+      color: "gold",
+      size: 0.1,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true,
+    });
+
+    return { particleGeometry: geometry, particleMaterial: material };
+  }, [isSmallScreen, textures.particle]);
+
+  // Memoize smoke material to prevent recreation
+  const smokeMaterial = useMemo(() => {
+    return new THREE.MeshStandardMaterial({
+      color: "#E5B80B",
+      map: textures.smoke,
+      transparent: true,
+      opacity: 0.2,
+      depthWrite: false,
+    });
+  }, [textures.smoke]);
+
+  useFrame(({ clock }) => {
+    const time = clock.getElapsedTime();
+
+    if (ref.current) {
+      // Simplified animation with single time source
+      ref.current.position.x = Math.sin(time) * 0.1;
+      ref.current.position.y = Math.cos(time) * 0.05;
+      ref.current.rotation.z = Math.sin(time) * 0.02;
+    }
+
+    if (particlesRef.current) {
+      // Lower rotation rate for better performance
+      particlesRef.current.rotation.y += 0.015;
+    }
+
+    if (smokeRef.current) {
+      // Simplified smoke animation
+      smokeRef.current.position.y = Math.sin(time * 0.5) * 0.1;
+    }
+  });
 
   return (
     <group ref={ref} scale={modelScale}>
       <primitive object={scene} />
-      {/* Floating Sparkles */}
       <points
         ref={particlesRef}
         geometry={particleGeometry}
         material={particleMaterial}
       />
-      {/* <mesh ref={smokeRef} position={[-0.1, -0.2, -1]}>
-        <planeGeometry args={smokeScale} />
-        <meshStandardMaterial
-          color={"yellow"}
-          map={smokeTexture}
-          transparent
-          opacity={1}
-          depthWrite={false}
-        />
-      </mesh> */}
-      {/* <mesh ref={cloudRef} position={[0, 0, -1]} scale={[2, 2, 2]}>
-        <planeGeometry args={[viewport.width * 0.2, viewport.height * 0.2]} />
-        <meshBasicMaterial map={cloudTexture} transparent opacity={0.6} />
-      </mesh> */}
       <mesh ref={smokeRef} position={[-0.1, -0.2, -1]}>
         <planeGeometry args={smokeScale} />
-        <meshStandardMaterial
-          color={"#E5B80B"}
-          map={smokeTexture}
-          transparent
-          opacity={0.2}
-          depthWrite={false}
-        />
+        <meshStandardMaterial {...smokeMaterial} />
       </mesh>
-      {/* <mesh ref={cloudRef} position={[-2, 1, -1]}>
-        <planeGeometry args={[4, 4]} />
-        <meshStandardMaterial
-          color={"default"}
-          map={cloudTexture}
-          transparent
-          opacity={1}
-          depthWrite={false}
-        />
-      </mesh> */}
-      ;
     </group>
   );
 }
