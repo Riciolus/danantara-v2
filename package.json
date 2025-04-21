@@ -12,6 +12,7 @@
     "@react-three/drei": "^10.0.3",
     "@react-three/fiber": "^9.0.4",
     "@types/three": "^0.174.0",
+    "babel-plugin-react-compiler": "19.0.0-beta-ebf51a3-20250411",
     "motion": "^12.5.0",
     "next": "15.2.0",
     "react": "^19.0.0",

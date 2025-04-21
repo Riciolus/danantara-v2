@@ -10,22 +10,37 @@
   src: url("/fonts/Swanley_FREE.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "GriffosFont";
+  src: url("/fonts/GriffosFont.ttf") format("truetype");
+}
+
 @theme {
+  --background: #efede5;
+  --foreground: #171717;
   --font-poppins: var(--font-poppins);
   --font-mono: var(--font-geist-mono);
   --font-grenze: var(--font-grenze-gotisch);
   --font-moglan: "Moglan", sans-serif;
   --font-swanley: "Swanley", sans-serif;
-  --background: var(--background);
+  --font-griffos: "GriffosFont", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --color-background: var(--background);
+  --color-footer-base: #071c1f;
+  --color-footer-primary: #0b2629;
 }
 
 :root {
-  --background: #fffbeb;
-  --foreground: #171717;
+  scroll-behavior: smooth;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: var(--font-geist-mono);
+  font-family: var(--font-poppins);
+}
+
+::selection {
+  background-color: oklch(0.879 0.169 91.605); /* Change to any color you want */
+  color: #000; /* Change text color if needed */
 }

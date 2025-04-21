@@ -3,7 +3,12 @@
 import Navbar from "./_components/section/navbar";
 import Header from "./_components/section/header";
 import AboutSection from "./_components/section/about";
-import SectionSpacer from "./_components/section-spacer";
+import HeaderSectionSpacer from "./_components/header-section-spacer";
+import Footer from "./_components/section/footer";
+import JourneySection from "./_components/section/journey";
+import VisionAndMissionSection from "./_components/section/vision-mission";
+import LeadershipSection from "./_components/section/leadership";
+import RegulatoryBody from "./_components/section/regulator";
 
 export default function Home() {
   return (
@@ -12,9 +17,19 @@ export default function Home() {
 
       <Header />
 
-      <SectionSpacer />
+      <HeaderSectionSpacer />
 
       <AboutSection />
+
+      <JourneySection />
+
+      <VisionAndMissionSection />
+
+      <LeadershipSection />
+
+      <RegulatoryBody />
+
+      <Footer />
     </div>
   );
 }

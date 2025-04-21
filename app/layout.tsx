@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Grenze_Gotisch, Poppins } from "next/font/google";
+import { Geist_Mono, Grenze_Gotisch, Inter, Poppins } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Poppins({
   weight: ["300", "500", "600", "700"],
   variable: "--font-poppins",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  weight: ["300", "500", "600", "700"],
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -30,8 +36,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <head>
+
+      // REACT SCANN FOR PERFORMANCE DEV
+        <script
+          crossOrigin="anonymous"
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+        />
+      </head> */}
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${grenzeGotisch.variable} antialiased h-[200vh] overflow-x-hidden`}
+        className={`${geistSans.variable} ${inter.variable} ${geistMono.variable} ${grenzeGotisch.variable} antialiased h-[200vh] overflow-x-hidden`}
       >
         {children}
       </body>
